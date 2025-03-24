@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject gameplay;
     [SerializeField] private GameObject pause;
     [SerializeField] private GameObject options;
+
+    [SerializeField] private TextMeshProUGUI gameplayText;
+
+    [SerializeField] private TextMeshProUGUI inventoryText;
     public void EnableMainMenu()
     {
         DisableAllMenus();
@@ -51,5 +55,15 @@ public class UIManager : MonoBehaviour
         options.SetActive(false);
         
     }
-    
+
+    public void ChangeGameplayText(string Text)
+    {
+        gameplayText.text =  Text;
+    }
+
+    public void ChangeInventoryText(string Text)
+    {
+        inventoryText.text = Text;
+    }
+
 }
