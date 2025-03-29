@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using System;
 using TMPro;
 public class UIManager : MonoBehaviour
 {
@@ -9,10 +10,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameplay;
     [SerializeField] private GameObject pause;
     [SerializeField] private GameObject options;
+    [SerializeField] private GameObject info;
 
     [SerializeField] private TextMeshProUGUI gameplayText;
 
+    [SerializeField] private TextMeshProUGUI infoText;
+
     [SerializeField] private TextMeshProUGUI inventoryText;
+
+    private List<string> infoList = new List<string>(); // List to hold info lines
     public void EnableMainMenu()
     {
         DisableAllMenus();
@@ -53,7 +59,35 @@ public class UIManager : MonoBehaviour
         gameplay.SetActive(false);
         pause.SetActive(false);
         options.SetActive(false);
+        info.SetActive(false);
         
+    }
+    public IEnumerator StartInfo(string[] infoToPlay)
+    {
+        info.SetActive(true);// Makes the info text box visible
+
+        infoList.Clear();// Clears old info text
+
+        // Adding each line from the passed in array to the info list
+        foreach (string line in infoToPlay)
+        {
+            infoList.Add(line);
+        }
+
+        if (infoList.Count == 0)
+        {
+            info.SetActive(false);// If theres no more lines hide info box
+            yield break;// Breaks out of coroutine
+        }
+
+        // Going through the lines in infoList and chaning text one at a time
+        foreach (string line in infoList)
+        {
+            infoText.text = line;
+            yield return new WaitForSeconds(3f);// Holds for 3 seconds before the next line
+        }
+
+        info.SetActive(false);// Setting text box to false after all the lines are done 
     }
 
     public void ChangeGameplayText(string Text)

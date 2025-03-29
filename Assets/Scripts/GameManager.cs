@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    // Adding my other scripts so I can use game manager to use the methods
+
+    // Managers
     public UIManager UImanager;
     public LevelManager LevelManger;
     public GameStateManager gameStateManager;
+    public DialogueManager dialogueManager;
+    public PlayerMovement playerMovement;
 
     void Start()
     {
@@ -19,7 +22,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //Doesn't destroy when new scene is loaded
             DontDestroyOnLoad(gameObject);
             Instance = this;
         }

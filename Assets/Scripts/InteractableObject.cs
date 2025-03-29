@@ -5,7 +5,6 @@ using UnityEngine.Rendering;
 
 public class InteractableObject : MonoBehaviour
 {
-    List<GameObject> inventory = new List<GameObject>();
     public enum Interaction
     {
         Nothing,
@@ -16,7 +15,8 @@ public class InteractableObject : MonoBehaviour
 
     public Interaction InteractionType;
 
-    public List<string> Text = new List<string>();
+    public string[] InfoString;
+    public string[] Dialogue;
 
     public void Interact()
     {
@@ -29,10 +29,10 @@ public class InteractableObject : MonoBehaviour
                 PickUp();
                 break;
             case Interaction.Info:
-                StartCoroutine(InfoTimer());// Starting a timer for info text
+                Info();
                 break;
             case Interaction.Dialogue:
-                Dialogue();
+                StartDialogue();
                 break;
         }
     }
@@ -48,24 +48,13 @@ public class InteractableObject : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public IEnumerator InfoTimer()
+    public void Info()
     {
-        // foreach text in my string list, will change the gameplay ui to the text and wait 3 second and go to empty 
-        foreach (string text in Text)
-        {
-            //Displaying my first text
-            GameManager.Instance.UImanager.ChangeGameplayText(text);
-
-            //Wait 3 seconds
-            yield return new WaitForSeconds(3f);
-
-            //Then making it empty and getting ready for new text in list
-            GameManager.Instance.UImanager.ChangeGameplayText("");
-        }
+        GameManager.Instance.UImanager.StartCoroutine(GameManager.Instance.UImanager.StartInfo(InfoString));
     }
 
-    public void Dialogue()
+    public void StartDialogue()
     {
-        Debug.Log("Dialogue");
+        GameManager.Instance.dialogueManager.StartDialogue(Dialogue);
     }
 }
